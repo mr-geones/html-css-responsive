@@ -113,6 +113,7 @@ ol, ul {
 }
 
 .btn {
+  font-size: .9rem;
   padding: .6em 1.8em;
   display: flex;
   gap: .5rem;
@@ -122,15 +123,67 @@ ol, ul {
   background-color: transparent;
   border: 0;
   cursor: pointer;
+
+  img {
+    height: 1.5em;
+  }
 }
 .btn-primary {
   background-color: var(--clr-primary);
   color: #FFF;
+  transition: background-color 150ms;
+  &:hover,
+  &:focus-visible {
+    background-color: hsl(from var(--clr-primary) h s calc(l - 10));
+  }
+}
+
+.toggle {
+  --_w: 46px;
+  --_h: 24px;
+  position: relative;
+  flex-shrink: 0;
+  width: var(--_w);
+  height: var(--_h);
+  display: inline-block;
+
+  input[type="checkbox"] {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+
+  .slider {
+    position: absolute;
+    inset: 0;
+    background-color: var(--clr-gray-600);
+    border-radius: 100vw;
+    transition: all 250ms;
+  }
+
+  .slider::after {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    content: '';
+    height: calc(100% - 4px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background-color: #FFF;
+    transition: all 250ms;
+  }
+
+  input[type="checkbox"]:checked ~ .slider::after {
+    left: calc(100% - var(--_h) + 2px);
+  }
+  input[type="checkbox"]:checked ~ .slider {
+    background-color: var(--clr-primary);
+  }
 }
 
 /* NAVBAR START */
 .main-nav {
-
+  padding-block: 1rem;
   .skip-link {
     display: inline-block;
     padding: 1rem;
@@ -146,10 +199,77 @@ ol, ul {
     }
   }
 
+  .container {
+    position: relative;
+  }
+
   .container,
   .main-menu {
     display: flex;
     align-items: center;
   }
+
+  .darkmode-toggle {
+    position: absolute;
+    right: 12rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    p {
+      color: var(--clr-text-navigation);
+      font-weight: 600;
+    }
+  }
+  .menu-btn {
+    display: none;
+    background-color: transparent;
+    border: 0;
+    padding: .5rem;
+    padding-right: 0;
+    cursor: pointer;
+    position: absolute;
+    right: 1rem;
+  }
+
+  .main-menu {
+    width: 100%;
+    justify-content: space-between;
+    margin-left: 3rem;
+  }
+
+  .nav-link {
+    color: var(--clr-text-navigation);
+    text-decoration: none;
+    font-weight: 600;
+    &:hover,
+    &:focus-visible {
+      color: var(--clr-primary);
+    }
+  }
+
+  @media (width <= 992px) {
+    .menu-btn {
+      display: block;
+    }
+    .container {
+      position: static;
+    }
+    .main-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      flex-direction: column-reverse;
+      gap: 1rem;
+      padding-block: 2rem;
+      box-shadow: 0 5px 5px #00000028;
+      border: 1px solid #fff;
+    }
+    .nav-link {
+      display: inline-block;
+      padding: 1rem;
+    }
+  }
+
 }
 /* NAVBAR END */
